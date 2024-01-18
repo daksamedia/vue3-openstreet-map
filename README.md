@@ -1,2 +1,2 @@
 # vue3-openstreet-map
-Vue 3 Plugins for Location Picker and Map Display
+Vue 3 Plugins for Location Picker and Map Display. OpenStreetMap based, free to use.
