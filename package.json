@@ -1,0 +1,46 @@
+{
+  "name": "vue3-openstreet-map",
+  "version": "0.0.92",
+  "type": "module",
+  "description": "Simple Vue 3 Openlayers Map Picker & Geocoder",
+  "main": "./dist/VueOpenMap.umd.cjs",
+  "module": "./dist/VueOpenMap.js",
+  "types": "./dist/index.d.js",
+  "exports": {
+    ".": {
+      "import": "./dist/VueOpenMap.umd.cjs",
+      "require": "./dist/VueOpenMap.js"
+    }
+
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "vue",
+    "vue3",
+    "component",
+    "library",
+    "maps",
+    "openstreet",
+    "openlayers"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "Daksa Media",
+  "dependencies": {
+    "ol": "^8.2.0",
+    "ol-geocoder": "^4.3.1",
+    "ol-popup": "^5.1.0",
+    "vite-plugin-dts": "^3.7.1",
+    "vue": "^3.3.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "vite": "^5.0.8"
+  }
+}
