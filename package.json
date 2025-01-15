@@ -1,6 +1,6 @@
 {
   "name": "vue3-openstreet-map",
-  "version": "0.0.92",
+  "version": "0.0.93",
   "type": "module",
   "description": "Simple Vue 3 Openlayers Map Picker & Geocoder",
   "main": "./dist/VueOpenMap.umd.cjs",

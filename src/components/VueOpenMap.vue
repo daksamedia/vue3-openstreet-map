@@ -1,8 +1,6 @@
 <template>
   <div id="map" tabindex="0" ></div>
-  <div id="marker" title="Marker">
-    <!-- <img src="https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/256/Map-Marker-Marker-Outside-Azure.png" style="width: 40px; height: 40px;"> -->
-  </div>
+  <div id="marker" title="Marker" :style="`background:url(${options.picker.icon}) no-repeat top center; background-size:100%;`"></div>
 </template>
 <script setup>
 import { onMounted, toRefs, ref } from 'vue';
@@ -23,14 +21,14 @@ const props = defineProps({
       return {
         adaptive: false,
         position: {
-          lat:16.3725,
-          long:48.208889,
+          lat:-6.1754024,
+          long:106.8271691649727,
           zoom:2,
         },
         search: {
           show: true,
           placeholder: "Type location name...",
-
+          language: 'en'
         },
         picker: {
           show: true,
@@ -64,7 +62,9 @@ const getMapData = (lat,lon) => {
   .then(response => response.json())
   .then(json => {
     addressData.value = json;
-    popup.show([lon,lat], `${json.display_name}<br><a style="color: navy; font-size: 10px;">${options.value.picker.label}</a>`);
+    if (options.value.picker.show) {
+      popup.show([lon,lat], `${json.display_name}<br><a style="color: navy; font-size: 10px;">${options.value.picker.label}</a>`);
+    }
     const result = {
       address_name: json.display_name,
       address_details: json,
@@ -107,12 +107,13 @@ const initializeMap = () => {
     stopEvent: false,
     dragging: false
   });
+
   map.addOverlay(marker);
 
   var geocoder = new Geocoder('nominatim', {
     provider: 'photon',
-    lang: 'en',
-    placeholder: 'Search for ...',
+    lang: options.value.search.language,
+    placeholder: options.value.search.placeholder,
     targetType: 'text-input',
     limit: 5,
     debug: true,
@@ -120,18 +121,23 @@ const initializeMap = () => {
     keepOpen: true
   });
 
-  map.addControl(geocoder);
-
-
-  map.addOverlay(popup);
+  if (options.value.search.show) {
+    map.addControl(geocoder);
+  }
 
   var latlng = [16.3725, 48.208889];
-  popup.show(pos, options.value.picker.label);
+
+  map.addOverlay(popup);
+  if (options.value.picker.show) {
+    popup.show(pos, options.value.picker.label);
+  }
 
   //Listen when an address is chosen
   geocoder.on('addresschosen', function(evt){
     window.setTimeout(function () {
-      popup.show(evt.coordinate, evt.address.formatted);
+      if (options.value.picker.show) {
+        popup.show(evt.coordinate, evt.address.formatted);
+      }
     }, 1000);
   });
 
@@ -326,8 +332,6 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background:url(https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/256/Map-Marker-Marker-Outside-Azure.png) no-repeat top center;
-  background-size:100%;
   opacity: 1;
   cursor: move;
 }
